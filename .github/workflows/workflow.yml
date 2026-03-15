@@ -1,4 +1,4 @@
-name: CI Pipeline Para o módulo ms-agendamento 
+name: ms-agendamento CI/CD Pipeline 
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   code-quality-agendamento:
-    name: Lint do módulo ms-agendamento
+    name: ms-agendamento Linting and Code Quality Analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -47,7 +47,7 @@ jobs:
   
   test-agendamento:
     needs: [code-quality-agendamento]
-    name: Execute tests for Agendamento Module
+    name: ms-agendamento Module Automated Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -88,6 +88,7 @@ jobs:
 
   build-agendamento:
     needs: [test-agendamento]
+    name: ms-agendamento Module Build and Artifact Upload
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -108,7 +109,7 @@ jobs:
           retention-days: 1
 
   #zap-scan:
-  #  needs: build-project
+  #  needs: build-agendamento
   #  uses: ./.github/workflows/zapscan.yml
   #  secrets: inherit
   

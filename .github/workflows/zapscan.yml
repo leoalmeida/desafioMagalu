@@ -1,4 +1,4 @@
-name: OWASP zap_scan
+name: Project OWASP zap_scan
 
 on:
   workflow_call:
@@ -6,7 +6,7 @@ on:
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
-    name: ZAP Scan Baseline
+    name: ms-agendamento ZAP Scan Baseline
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
