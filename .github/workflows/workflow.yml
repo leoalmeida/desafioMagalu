@@ -1,4 +1,4 @@
-name: CI Pipeline for ms-order Module
+name: CI Pipeline Para o módulo ms-agendamento 
 
 on:
   push:
