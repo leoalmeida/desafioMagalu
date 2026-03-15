@@ -3,7 +3,7 @@ name: ms-agendamento CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
 
 permissions:
   contents: read
