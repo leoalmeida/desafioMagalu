@@ -8,12 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.io.Serial;
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Entidade que representa um agendamento.
@@ -39,6 +38,7 @@ public class Agendamento {
 
     @Column(name = "destinatario")
     private String destinatario;
+
     @Column(name = "mensagem")
     private String mensagem;
     // email, SMS, push e WhatsApp

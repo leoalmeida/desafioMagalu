@@ -76,5 +76,4 @@ public class AgendamentoServiceImpl implements AgendamentoService {
             throw new IllegalArgumentException("Pedido não encontrado com ID: " + id);
         }
     }
-
 }

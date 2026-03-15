@@ -12,7 +12,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -45,38 +44,38 @@ class AgendamentoServiceImplTest {
     @Test
     void createAgendamentoShouldSaveAgendamento() {
         AgendamentoDto dtoIn = AgendamentoDto.builder()
-            .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
-            .destinatario("contato@empresa.com")
-            .mensagem("Lembrete de reunião")
-            .tipoEntrega("email")
-            .statusEntrega("PENDENTE")
+                .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
+                .destinatario("contato@empresa.com")
+                .mensagem("Lembrete de reunião")
+                .tipoEntrega("email")
+                .statusEntrega("PENDENTE")
                 .build();
 
         Agendamento agendamentoEntity = Agendamento.builder()
-            .id(99L)
-            .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
-            .destinatario("contato@empresa.com")
-            .mensagem("Lembrete de reunião")
-            .tipoEntrega("email")
-            .statusEntrega("PENDENTE")
-            .build();
+                .id(99L)
+                .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
+                .destinatario("contato@empresa.com")
+                .mensagem("Lembrete de reunião")
+                .tipoEntrega("email")
+                .statusEntrega("PENDENTE")
+                .build();
         Agendamento savedAgendamento = Agendamento.builder()
-            .id(1L)
-            .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
-            .destinatario("contato@empresa.com")
-            .mensagem("Lembrete de reunião")
-            .tipoEntrega("email")
-            .statusEntrega("PENDENTE")
-            .build();
+                .id(1L)
+                .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
+                .destinatario("contato@empresa.com")
+                .mensagem("Lembrete de reunião")
+                .tipoEntrega("email")
+                .statusEntrega("PENDENTE")
+                .build();
 
         AgendamentoDto mappedAgendamentoOut = AgendamentoDto.builder()
-            .id(1L)
-            .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
-            .destinatario("contato@empresa.com")
-            .mensagem("Lembrete de reunião")
-            .tipoEntrega("email")
-            .statusEntrega("PENDENTE")
-            .build();
+                .id(1L)
+                .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
+                .destinatario("contato@empresa.com")
+                .mensagem("Lembrete de reunião")
+                .tipoEntrega("email")
+                .statusEntrega("PENDENTE")
+                .build();
 
         when(modelMapper.map(dtoIn, Agendamento.class)).thenReturn(agendamentoEntity);
         when(repository.save(agendamentoEntity)).thenReturn(savedAgendamento);
@@ -104,7 +103,8 @@ class AgendamentoServiceImplTest {
     void deleteAgendamentoShouldThrowWhenAgendamentoDoesNotExist() {
         when(repository.findById(10L)).thenReturn(Optional.empty());
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> service.deleteAgendamento(10L));
+        IllegalArgumentException ex =
+                assertThrows(IllegalArgumentException.class, () -> service.deleteAgendamento(10L));
 
         assertTrue(ex.getMessage().contains("Pedido não encontrado"));
         verify(repository, never()).deleteById(10L);

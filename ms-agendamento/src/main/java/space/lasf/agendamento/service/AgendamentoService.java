@@ -15,5 +15,4 @@ public interface AgendamentoService {
     List<AgendamentoDto> getAllAgendamentos();
 
     void deleteAgendamento(Long id);
-
 }

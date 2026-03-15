@@ -30,13 +30,15 @@ public class AgendamentoController {
 
     @GetMapping
     public ResponseEntity<List<AgendamentoDto>> getAgendamentos() {
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(agendamentoService.getAllAgendamentos());
     }
 
     @GetMapping("/{agendamentoId}")
     public ResponseEntity<AgendamentoDto> getAgendamentoById(@PathVariable final Long agendamentoId) {
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(agendamentoService.getAgendamentoById(agendamentoId));
     }
 

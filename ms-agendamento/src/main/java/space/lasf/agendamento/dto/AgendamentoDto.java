@@ -18,7 +18,7 @@ public class AgendamentoDto {
     private LocalDateTime dataHoraAgendamento;
     private String destinatario;
     private String mensagem;
-    //email, SMS, push e WhatsApp
+    // email, SMS, push e WhatsApp
     private String tipoEntrega;
     private String statusEntrega;
 }

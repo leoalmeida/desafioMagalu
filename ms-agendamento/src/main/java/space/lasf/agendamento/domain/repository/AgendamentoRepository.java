@@ -9,5 +9,5 @@ import space.lasf.agendamento.domain.model.Agendamento;
  */
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
-
+    long serialVersionUID = 1L;
 }

@@ -3,15 +3,12 @@ package space.lasf.agendamento.e2e;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
-import space.lasf.agendamento.domain.model.Agendamento;
-import space.lasf.agendamento.domain.repository.AgendamentoRepository;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import space.lasf.agendamento.domain.model.Agendamento;
+import space.lasf.agendamento.domain.repository.AgendamentoRepository;
 
 @EnabledIfSystemProperty(named = "docker.e2e", matches = "true")
 @Testcontainers
@@ -36,7 +35,6 @@ class AgendamentoFlowE2ETest {
             .withUsername("test")
             .withPassword("test");
 
-   
     @DynamicPropertySource
     static void configure(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", MYSQL::getJdbcUrl);
@@ -87,7 +85,8 @@ class AgendamentoFlowE2ETest {
 
         HttpResponse<String> deleteResponse = httpClient.send(
                 HttpRequest.newBuilder()
-                        .uri(URI.create("http://localhost:" + port + "/api/v1/agendamento/" + storedAgendamento.getId()))
+                        .uri(URI.create(
+                                "http://localhost:" + port + "/api/v1/agendamento/" + storedAgendamento.getId()))
                         .timeout(Duration.ofSeconds(10))
                         .DELETE()
                         .build(),

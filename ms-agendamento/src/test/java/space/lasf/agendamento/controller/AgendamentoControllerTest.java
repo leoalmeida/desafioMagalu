@@ -40,8 +40,7 @@ class AgendamentoControllerTest {
 
     @Test
     void getAgendamentosShouldReturnOk() throws Exception {
-        List<AgendamentoDto> agendamentos = List.of(
-            AgendamentoDto.builder()
+        List<AgendamentoDto> agendamentos = List.of(AgendamentoDto.builder()
                 .id(1L)
                 .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 9, 0))
                 .destinatario("contato@empresa.com")
@@ -63,13 +62,13 @@ class AgendamentoControllerTest {
     @Test
     void getAgendamentoByIdShouldReturnOk() throws Exception {
         AgendamentoDto agendamento = AgendamentoDto.builder()
-            .id(2L)
-            .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
-            .destinatario("5511988887777")
-            .mensagem("Lembrete")
-            .tipoEntrega("SMS")
-            .statusEntrega("ENVIADO")
-            .build();
+                .id(2L)
+                .dataHoraAgendamento(LocalDateTime.of(2026, 3, 15, 10, 0))
+                .destinatario("5511988887777")
+                .mensagem("Lembrete")
+                .tipoEntrega("SMS")
+                .statusEntrega("ENVIADO")
+                .build();
         when(agendamentoService.getAgendamentoById(2L)).thenReturn(agendamento);
 
         mockMvc.perform(get("/api/v1/agendamento/2"))
@@ -83,7 +82,7 @@ class AgendamentoControllerTest {
     @Test
     void createAgendamentoShouldReturnAccepted() throws Exception {
         String payload =
-            """
+                """
             {
               "id": 4,
               "dataHoraAgendamento": "2026-03-15T12:15:00",
@@ -96,7 +95,7 @@ class AgendamentoControllerTest {
 
         mockMvc.perform(post("/api/v1/agendamento")
                         .contentType(MediaType.APPLICATION_JSON)
-                .content(payload))
+                        .content(payload))
                 .andExpect(status().isAccepted());
 
         verify(agendamentoService).createAgendamento(any(AgendamentoDto.class));
