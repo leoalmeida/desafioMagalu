@@ -20,6 +20,15 @@
 
 </p>
 
+<p align="center">
+  <a href="https://github.com/SEU_USUARIO/SEU_REPOSITORIO/actions/workflows/workflow.yml">
+    <img alt="CI Workflow" src="https://github.com/SEU_USUARIO/SEU_REPOSITORIO/actions/workflows/workflow.yml/badge.svg?branch=main">
+  </a>
+  <a href="https://codecov.io/gh/SEU_USUARIO/SEU_REPOSITORIO">
+    <img alt="Codecov" src="https://codecov.io/gh/SEU_USUARIO/SEU_REPOSITORIO/branch/main/graph/badge.svg?flag=ms-agendamento">
+  </a>
+</p>
+
 ## Sobre
 
 Este repositório contém a implementação do desafio de backend da Magalu, com foco no serviço `ms-agendamento`.
@@ -40,7 +49,7 @@ Status atual do módulo `ms-agendamento`:
 - E2E com Docker/Testcontainers: configurado via flag `-Ddocker.e2e=true`
 - Cobertura: relatório JaCoCo gerado em `ms-agendamento/target/site/jacoco/`
 
-Observação: os badges acima representam stack e pipeline configurados neste projeto. Para badge dinâmica de execução no GitHub Actions, o repositório precisa estar publicado no GitHub com URL de workflow pública.
+Observação: para ativar os badges dinâmicos de CI e cobertura acima, substitua `SEU_USUARIO/SEU_REPOSITORIO` pelo caminho real do repositório no GitHub.
 
 ## Workflows Relevantes
 
