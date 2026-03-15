@@ -1,0 +1,25 @@
+@startuml component_diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Magalu - Componentes do Backend (ms-agendamento)
+
+Container_Boundary(msag, "ms-agendamento") {
+	Component(home_controller, "HomeController", "Spring Web", "Endpoint de boas vindas")
+	Component(ag_controller, "AgendamentoController", "Spring Web", "Endpoints /api/v1/agendamento")
+	Component(ag_service, "AgendamentoServiceImpl", "Service", "Regras de negocio")
+	Component(ag_repository, "AgendamentoRepository", "Spring Data JPA", "Acesso a dados")
+	Component(validator, "ObjectsValidator", "Validacao", "Validacao das entidades")
+	Component(exception_handler, "GlobalExceptionHandler", "@RestControllerAdvice", "Padronizacao de erros")
+}
+
+ComponentDb(mysql, "MySQL 8.4", "Banco de dados", "Armazena agendamentos")
+
+Rel(home_controller, ag_controller, "Compartilha camada web")
+Rel(ag_controller, ag_service, "Chama")
+Rel(ag_service, validator, "Valida")
+Rel(ag_service, ag_repository, "Le e grava")
+Rel(ag_repository, mysql, "Persiste")
+Rel(exception_handler, ag_controller, "Interpreta excecoes")
+
+@enduml

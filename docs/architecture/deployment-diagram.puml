@@ -1,0 +1,22 @@
+@startuml deployment_diagram
+
+title Magalu - Diagrama de Deploy
+
+node "Cliente" {
+    component "Navegador / App"
+}
+
+node "Ambiente Docker Compose" {
+    node "Container ms-agendamento" {
+        component "Spring Boot API"
+    }
+
+    node "Container mysql" {
+        database "MySQL 8.4"
+    }
+}
+
+"Navegador / App" --> "Spring Boot API" : HTTPS/JSON
+"Spring Boot API" --> "MySQL 8.4" : JDBC
+
+@enduml

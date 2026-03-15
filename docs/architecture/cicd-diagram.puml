@@ -1,0 +1,32 @@
+@startuml cicd_diagram
+
+title Magalu - Pipeline CI/CD (GitHub Actions)
+
+actor Desenvolvedor
+
+rectangle GitHub {
+
+    Desenvolvedor -> "Repositorio Git" : Envia codigo
+
+}
+
+rectangle "GitHub Actions" {
+
+    "Job: code-quality-agendamento\n(spotless/checkstyle/pmd/spotbugs)" as quality
+    "Job: test-agendamento\n(clean package + E2E + jacoco + codecov)" as tests
+    "Job: build-agendamento\n(package -DskipTests + artifact)" as build
+
+}
+
+rectangle "Saidas" {
+    "Artefato: ms-agendamento-jar" as artifact
+    "Cobertura: JaCoCo + Codecov" as coverage
+}
+
+"Repositorio Git" --> quality
+quality --> tests
+tests --> build
+tests --> coverage
+build --> artifact
+
+@enduml

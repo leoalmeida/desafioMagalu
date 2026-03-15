@@ -1,0 +1,21 @@
+@startuml container_diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Magalu - Diagrama de Containers
+
+Person(user, "Usuario")
+System_Ext(client, "Cliente HTTP / Frontend", "Web app ou consumidor REST")
+
+System_Boundary(system, "Plataforma de Agendamento") {
+
+    Container(ms_agendamento, "ms-agendamento", "Spring Boot 4 / Java 17", "API REST de agendamentos")
+    ContainerDb(mysql, "MySQL 8.4", "Banco relacional", "Persistencia de agendamentos")
+
+}
+
+Rel(user, client, "Usa")
+Rel(client, ms_agendamento, "HTTP", "JSON/REST")
+Rel(ms_agendamento, mysql, "Le e grava", "Spring Data JPA")
+
+@enduml

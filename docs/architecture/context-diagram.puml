@@ -1,0 +1,19 @@
+@startuml context_diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Magalu - Diagrama de Contexto (ms-agendamento)
+
+Person(user, "Usuario", "Usuario final que agenda comunicacoes")
+
+System_Ext(client, "Cliente HTTP / Frontend", "Aplicacao web ou cliente REST")
+
+System(system, "Plataforma de Agendamento", "API REST para criar, consultar e remover agendamentos")
+
+System_Ext(mysql, "MySQL 8.4", "Banco relacional para persistencia de agendamentos")
+
+Rel(user, client, "Interage")
+Rel(client, system, "Consome", "HTTPS/JSON")
+Rel(system, mysql, "Le e grava", "Spring Data JPA")
+
+@enduml
