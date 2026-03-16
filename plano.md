@@ -259,9 +259,16 @@ Equivalente: 6 a 10 dias-pessoa
 
 ## 9. Backlog por Serviço
 
+Padrao de identificacao das historias:
+
+- `PROJETO-SERVICO-NNN`
+- `PROJETO`: `VTB`, `MAG` ou `BTG`
+- `SERVICO`: codigo curto do modulo ou contexto
+- `NNN`: sequencial de tres digitos
+
 ### `ms-agendamento`
 
-Historia `MAG-AGD-01`
+Historia `MAG-AGD-001`
 
 - como consumidor da API, quero criar um agendamento de comunicacao com os dados obrigatorios para registrar a solicitacao de envio
 
@@ -271,7 +278,7 @@ Criterios de aceite:
 - validacoes de entrada rejeitam payloads invalidos com erro consistente
 - o registro fica persistido em banco apos a criacao
 
-Historia `MAG-AGD-02`
+Historia `MAG-AGD-002`
 
 - como operador, quero consultar um agendamento por identificador para acompanhar seu estado
 
@@ -281,7 +288,7 @@ Criterios de aceite:
 - a API retorna erro apropriado quando o identificador nao existe
 - testes cobrem sucesso e nao encontrado
 
-Historia `MAG-AGD-03`
+Historia `MAG-AGD-003`
 
 - como operador, quero listar agendamentos para obter visao operacional do volume cadastrado
 
@@ -290,7 +297,7 @@ Criterios de aceite:
 - a listagem retorna os registros persistidos de forma consistente
 - o contrato de resposta esta documentado no OpenAPI
 
-Historia `MAG-AGD-04`
+Historia `MAG-AGD-004`
 
 - como operador, quero remover um agendamento para excluir registros indevidos antes do envio futuro
 
@@ -299,7 +306,7 @@ Criterios de aceite:
 - a remocao remove ou invalida o registro conforme a estrategia definida
 - o comportamento da API para exclusao de identificador inexistente e documentado e testado
 
-Historia `MAG-AGD-05`
+Historia `MAG-AGD-005`
 
 - como time tecnico, quero manter o schema e o contrato preparados para futura evolucao do status de entrega
 
