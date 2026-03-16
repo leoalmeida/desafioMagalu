@@ -2,6 +2,54 @@
 
 [Português](README.md) | [English](README.en.md)
 
+Communication scheduling service built with Spring Boot, JPA, MySQL, OpenAPI, and Docker Compose.
+
+## Executive Summary
+
+This repository implements the Magalu backend challenge with focus on the `ms-agendamento` service, responsible for receiving communication scheduling requests and exposing APIs for retrieval and removal.
+
+Project goals:
+
+- accept scheduling requests through a REST API
+- persist data in a model ready for future delivery lifecycle evolution
+- expose clear contracts and API documentation
+- keep quality visible through tests, coverage, and CI automation
+
+Main scope:
+
+- `ms-agendamento`: create, retrieve, list, and delete schedules
+- `docs/architecture`: diagrams and architecture support material
+- `.github/workflows`: build, test, and coverage automation
+
+Architecture at a glance:
+
+Client
+	|
+`ms-agendamento` REST API
+	|
+Domain and persistence layers
+	|
+MySQL
+
+## Stack
+
+- Java 17
+- Spring Boot 4.0.3
+- Spring Data JPA
+- MySQL 8
+- Flyway
+- Springdoc OpenAPI
+- Testcontainers
+- Docker Compose
+- GitHub Actions + Codecov
+
+## Project Status
+
+- main service concentrated in `ms-agendamento`
+- build, test, and coverage pipelines published
+- architecture documentation available under `docs/architecture`
+- detailed roadmap available in [plano.md](plano.md)
+
 ## Build, Tests and Coverage
 
 | Type | Status |
@@ -12,42 +60,38 @@
 
 JaCoCo reports are generated in CI and can also be produced locally at ms-agendamento/target/site/jacoco/.
 
-![Java](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.3-6DB33F?logo=springboot&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-3.9+-C71A36?logo=apachemaven&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white)
-![Testcontainers](https://img.shields.io/badge/Testcontainers-1.20.6-2496ED?logo=docker&logoColor=white)
-
-Backend challenge project from Magalu focused on the ms-agendamento service.
-
 ## Table of Contents
 
-- [Overview](#overview)
+- [Executive Summary](#executive-summary)
+- [Stack](#stack)
+- [Project Status](#project-status)
 - [Build, Tests and Coverage](#build-tests-and-coverage)
-- [Ports and Discovery](#ports-and-discovery)
+- [Repository Modules](#repository-modules)
+- [Ports and Integrations](#ports-and-integrations)
 - [Requirements](#requirements)
-- [How to Run](#how-to-run)
+- [Quick Start](#quick-start)
 - [Configuration](#configuration)
 - [Tests](#tests)
 - [Docker](#docker)
 - [Troubleshooting](#troubleshooting)
+- [References](#references)
 
-## Overview
+## Repository Modules
 
 Main features:
 
-- Schedule communication delivery with date/time, recipient, message, delivery type and status
-- Get a schedule by ID
-- List all schedules
-- Delete a schedule by ID
+- schedule communication delivery with date/time, recipient, message, type, and status
+- retrieve a schedule by ID
+- list schedules
+- delete a schedule by ID
 
 Main structure:
 
-- ms-agendamento
-- docs/architecture
-- .github/workflows
+- `ms-agendamento`
+- `docs/architecture`
+- `.github/workflows`
 
-## Ports and Discovery
+## Ports and Integrations
 
 - ms-agendamento: server.port=0 (dynamic port)
 - MySQL (docker-compose): 3306 in container, mapped through MYSQL_LOCAL_PORT
@@ -58,7 +102,14 @@ Main structure:
 - Maven 3.9+
 - Docker (for full environment and E2E)
 
-## How to Run
+## Quick Start
+
+### Essential local startup
+
+1. run the module build
+2. start MySQL with Docker Compose or point to an existing instance
+3. start `ms-agendamento`
+4. validate the endpoints and OpenAPI documentation
 
 ### 1. Full build
 
@@ -73,6 +124,12 @@ mvn -B -f ms-agendamento/pom.xml clean package
 Set-Location "c:\Users\leo_a\projetos\desafioMagalu\ms-agendamento"
 .\mvnw.cmd spring-boot:run
 ```
+
+### Expected result
+
+- application started on a dynamic port
+- MySQL reachable through local configuration or compose
+- OpenAPI documentation available to validate endpoints
 
 ## Configuration
 
@@ -112,3 +169,9 @@ docker compose up --build
 - Database connection errors: validate MYSQL_* and SPRING_APPLICATION_JSON in compose.
 - E2E failures: make sure Docker is running before -Ddocker.e2e=true.
 - Port conflicts: adjust port variables in .env.
+
+## References
+
+- roadmap and planning: [plano.md](plano.md)
+- architecture diagrams: [docs/architecture](docs/architecture)
+- challenge statement: [PROBLEM.md](PROBLEM.md)

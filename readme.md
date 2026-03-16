@@ -2,6 +2,54 @@
 
 [Português](README.md) | [English](README.en.md)
 
+Serviço de agendamento de comunicações construído com Spring Boot, JPA, MySQL, OpenAPI e Docker Compose.
+
+## Resumo Executivo
+
+Este repositório implementa o desafio backend da Magalu com foco no serviço `ms-agendamento`, responsável por registrar solicitações de envio de comunicação e disponibilizar APIs para consulta e remoção do agendamento.
+
+Objetivos do projeto:
+
+- receber solicitações de agendamento por API REST
+- persistir os dados de forma preparada para evolução do ciclo de entrega
+- expor contratos claros e documentação de API
+- garantir qualidade com testes, cobertura e pipeline automatizado
+
+Escopo principal:
+
+- `ms-agendamento`: cadastro, consulta, listagem e remoção de agendamentos
+- `docs/architecture`: diagramas e apoio arquitetural
+- `.github/workflows`: automação de build, testes e cobertura
+
+Arquitetura resumida:
+
+Cliente
+	|
+API REST `ms-agendamento`
+	|
+Camadas de domínio e persistência
+	|
+MySQL
+
+## Stack
+
+- Java 17
+- Spring Boot 4.0.3
+- Spring Data JPA
+- MySQL 8
+- Flyway
+- Springdoc OpenAPI
+- Testcontainers
+- Docker Compose
+- GitHub Actions + Codecov
+
+## Status do Projeto
+
+- serviço principal concentrado em `ms-agendamento`
+- pipelines de build, testes e cobertura publicados
+- documentação arquitetural disponível em `docs/architecture`
+- roadmap detalhado em [plano.md](plano.md)
+
 ## Build, Testes e Cobertura
 
 | Tipo | Status |
@@ -12,42 +60,38 @@
 
 Relatorios JaCoCo sao gerados no CI e tambem podem ser executados localmente em ms-agendamento/target/site/jacoco/.
 
-![Java](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.3-6DB33F?logo=springboot&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-3.9+-C71A36?logo=apachemaven&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white)
-![Testcontainers](https://img.shields.io/badge/Testcontainers-1.20.6-2496ED?logo=docker&logoColor=white)
-
-Projeto do desafio backend da Magalu com foco no servico ms-agendamento.
-
 ## Sumario
 
-- [Visao Geral](#visao-geral)
+- [Resumo Executivo](#resumo-executivo)
+- [Stack](#stack)
+- [Status do Projeto](#status-do-projeto)
 - [Build, Testes e Cobertura](#build-testes-e-cobertura)
-- [Portas e Discovery](#portas-e-discovery)
+- [Modulos do Repositorio](#modulos-do-repositorio)
+- [Portas e Integracoes](#portas-e-integracoes)
 - [Requisitos](#requisitos)
-- [Como Rodar](#como-rodar)
+- [Como Rodar Rapido](#como-rodar-rapido)
 - [Configuracao](#configuracao)
 - [Testes](#testes)
 - [Docker](#docker)
 - [Troubleshooting](#troubleshooting)
+- [Referencias](#referencias)
 
-## Visao Geral
+## Modulos do Repositorio
 
 Funcionalidades principais:
 
-- Agendar envio de comunicacao com data/hora, destinatario, mensagem, tipo e status de entrega
-- Consultar um agendamento por ID
-- Listar todos os agendamentos
-- Remover agendamento por ID
+- agendar envio de comunicacao com data/hora, destinatario, mensagem, tipo e status
+- consultar um agendamento por ID
+- listar agendamentos
+- remover agendamento por ID
 
 Estrutura principal:
 
-- ms-agendamento
-- docs/architecture
-- .github/workflows
+- `ms-agendamento`
+- `docs/architecture`
+- `.github/workflows`
 
-## Portas e Discovery
+## Portas e Integracoes
 
 - ms-agendamento: server.port=0 (porta dinamica)
 - banco MySQL (docker-compose): 3306 no container, mapeamento pela variavel MYSQL_LOCAL_PORT
@@ -58,7 +102,14 @@ Estrutura principal:
 - Maven 3.9+
 - Docker (para ambiente completo e E2E)
 
-## Como Rodar
+## Como Rodar Rapido
+
+### Subida local essencial
+
+1. executar o build do modulo
+2. subir o MySQL via Docker Compose ou apontar para uma instancia existente
+3. iniciar o `ms-agendamento`
+4. validar os endpoints e a documentacao OpenAPI
 
 ### 1. Build completo
 
@@ -73,6 +124,12 @@ mvn -B -f ms-agendamento/pom.xml clean package
 Set-Location "c:\Users\leo_a\projetos\desafioMagalu\ms-agendamento"
 .\mvnw.cmd spring-boot:run
 ```
+
+### Resultado esperado
+
+- aplicacao iniciada com porta dinamica
+- banco MySQL acessivel via configuracao local ou compose
+- documentacao OpenAPI disponivel para validacao dos endpoints
 
 ## Configuracao
 
@@ -112,3 +169,9 @@ docker compose up --build
 - Erro de conexao com banco: valide MYSQL_* e SPRING_APPLICATION_JSON no compose.
 - Falha em E2E: confirme Docker ativo antes de rodar -Ddocker.e2e=true.
 - Porta em conflito: ajuste variaveis de porta no .env.
+
+## Referencias
+
+- roadmap e planejamento: [plano.md](plano.md)
+- diagramas: [docs/architecture](docs/architecture)
+- enunciado do desafio: [PROBLEM.md](PROBLEM.md)
