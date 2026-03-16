@@ -257,7 +257,68 @@ Equivalente: 6 a 10 dias-pessoa
 - release: validar imagem Docker, pipeline e prontidão para avaliação final
 - docs: consolidar troubleshooting, operação e checklist de entrega
 
-## 9. Priorização MoSCoW
+## 9. Backlog por Serviço
+
+### `ms-agendamento`
+
+Historia `MAG-AGD-01`
+
+- como consumidor da API, quero criar um agendamento de comunicacao com os dados obrigatorios para registrar a solicitacao de envio
+
+Criterios de aceite:
+
+- o endpoint aceita data/hora, destinatario, mensagem, tipo e status inicial
+- validacoes de entrada rejeitam payloads invalidos com erro consistente
+- o registro fica persistido em banco apos a criacao
+
+Historia `MAG-AGD-02`
+
+- como operador, quero consultar um agendamento por identificador para acompanhar seu estado
+
+Criterios de aceite:
+
+- a API retorna os dados completos do agendamento quando existente
+- a API retorna erro apropriado quando o identificador nao existe
+- testes cobrem sucesso e nao encontrado
+
+Historia `MAG-AGD-03`
+
+- como operador, quero listar agendamentos para obter visao operacional do volume cadastrado
+
+Criterios de aceite:
+
+- a listagem retorna os registros persistidos de forma consistente
+- o contrato de resposta esta documentado no OpenAPI
+
+Historia `MAG-AGD-04`
+
+- como operador, quero remover um agendamento para excluir registros indevidos antes do envio futuro
+
+Criterios de aceite:
+
+- a remocao remove ou invalida o registro conforme a estrategia definida
+- o comportamento da API para exclusao de identificador inexistente e documentado e testado
+
+Historia `MAG-AGD-05`
+
+- como time tecnico, quero manter o schema e o contrato preparados para futura evolucao do status de entrega
+
+Criterios de aceite:
+
+- o modelo de dados comporta evolucao de estados sem retrabalho estrutural relevante
+- migrations e documentacao deixam clara a intencao de extensibilidade
+
+## 10. RACI Simplificada
+
+| Atividade | Backend | Frontend | QA | DevOps |
+| --- | --- | --- | --- | --- |
+| Dominio, persistencia e API de agendamento | A/R | I | C | I |
+| Contrato OpenAPI e exemplos de uso | A/R | I | C | I |
+| Estrategia e execucao de testes | R | I | A | C |
+| Docker, banco local e pipeline | C | I | C | A/R |
+| Troubleshooting e readiness de entrega | R | I | C | A/R |
+
+## 11. Priorização MoSCoW
 
 ### Must Have
 
@@ -285,7 +346,7 @@ Equivalente: 6 a 10 dias-pessoa
 - orquestração avançada em múltiplos serviços
 - autenticação/autorização completa com IAM externo
 
-## 10. Estimativa por Frente
+## 12. Estimativa por Frente
 
 Referência inicial para planejamento macro:
 
@@ -300,7 +361,7 @@ Observações:
 - as estimativas consideram complexidade técnica moderada e equipe familiarizada com Spring Boot e MySQL
 - a reestimativa deve acontecer ao final de cada sprint com base em throughput real
 
-## 11. Definition of Done
+## 13. Definition of Done
 
 Antes de cada merge:
 
@@ -312,7 +373,7 @@ Antes de cada merge:
 - pipeline CI verde
 - documentação impactada atualizada
 
-## 12. Riscos e Mitigações
+## 14. Riscos e Mitigações
 
 Riscos principais:
 
