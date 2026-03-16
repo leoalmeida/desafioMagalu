@@ -2,24 +2,26 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Magalu - Componentes do Backend (ms-agendamento)
+title Desafio Magalu - Componentes do Backend (C4 Level 3)
 
 Container_Boundary(msag, "ms-agendamento") {
-	Component(home_controller, "HomeController", "Spring Web", "Endpoint de boas vindas")
-	Component(ag_controller, "AgendamentoController", "Spring Web", "Endpoints /api/v1/agendamento")
-	Component(ag_service, "AgendamentoServiceImpl", "Service", "Regras de negocio")
-	Component(ag_repository, "AgendamentoRepository", "Spring Data JPA", "Acesso a dados")
-	Component(validator, "ObjectsValidator", "Validacao", "Validacao das entidades")
-	Component(exception_handler, "GlobalExceptionHandler", "@RestControllerAdvice", "Padronizacao de erros")
+    Component(home_controller, "HomeController", "Spring Web", "Health-check: GET /")
+    Component(ag_controller, "AgendamentoController", "Spring Web", "CRUD de agendamentos\nGET /api/v1/agendamento\nGET /api/v1/agendamento/{id}\nPOST /api/v1/agendamento (202 Accepted)\nDELETE /api/v1/agendamento/{id} (204)")
+    Component(exc_handler, "GlobalExceptionHandler", "@RestControllerAdvice", "Tratamento centralizado de erros HTTP")
+    Component(ag_service, "AgendamentoServiceImpl", "Spring @Service", "Regras de negócio:\n- createAgendamento (valida + persiste)\n- getAgendamentoById\n- getAllAgendamentos\n- deleteAgendamento")
+    Component(ag_repository, "AgendamentoRepository", "Spring Data JPA\nextends JpaRepository", "CRUD genérico sobre tabela agendamentos")
+    Component(validator, "ObjectsValidator<Agendamento>", "Bean Validation", "Valida a entidade antes de persistir")
+    Component(mapper, "ModelMapper", "Object Mapping", "Conversão entre AgendamentoDto\ne entidade Agendamento")
+    Component(code_gen, "CodeGenerator", "Spring @Component", "Gerador de códigos únicos")
+    Component(circuit_breaker, "Circuit Breaker", "Resilience4j", "atualizarPedido:\nslidingWindowSize=3, waitInOpen=50s")
 }
 
-ComponentDb(mysql, "MySQL 8.4", "Banco de dados", "Armazena agendamentos")
+ComponentDb(mysql, "MySQL 8.4", "Banco de dados", "Tabela: agendamentos")
 
-Rel(home_controller, ag_controller, "Compartilha camada web")
-Rel(ag_controller, ag_service, "Chama")
-Rel(ag_service, validator, "Valida")
-Rel(ag_service, ag_repository, "Le e grava")
-Rel(ag_repository, mysql, "Persiste")
-Rel(exception_handler, ag_controller, "Interpreta excecoes")
+Rel(ag_controller, ag_service, "Delega operações")
+Rel(ag_service, validator, "Valida entidade antes de salvar")
+Rel(ag_service, mapper, "Converte Dto ↔ Agendamento")
+Rel(ag_service, ag_repository, "Lê e grava")
+Rel(ag_repository, mysql, "JDBC / JPA")
 
 @enduml

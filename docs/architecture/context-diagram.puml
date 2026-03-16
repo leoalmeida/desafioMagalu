@@ -2,18 +2,23 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-title Magalu - Diagrama de Contexto (ms-agendamento)
+title Desafio Magalu - Diagrama de Contexto (C4 Level 1)
 
-Person(user, "Usuario", "Usuario final que agenda comunicacoes")
+Person(user, "Usuário", "Acessa via cliente HTTP / browser\npara criar, consultar e remover agendamentos")
 
-System_Ext(client, "Cliente HTTP / Frontend", "Aplicacao web ou cliente REST")
+System_Boundary(magalu, "Plataforma de Agendamento") {
+    System(system, "ms-agendamento", "API REST para agendamento de comunicações.\nSuporta: email, SMS, push e WhatsApp.\nSpring Boot 4.0.3 / Java 17")
+}
 
-System(system, "Plataforma de Agendamento", "API REST para criar, consultar e remover agendamentos")
+System_Ext(mysql, "MySQL 8.4", "Banco de dados relacional.\nTabela: agendamentos (id, dataHora, destinatario,\nmensagem, tipoEntrega, statusEntrega)")
+System_Ext(eureka, "Service Discovery", "Eureka Server (repositório separado).\nRegistro dinâmico de instâncias.")
+System_Ext(dockerhub, "Docker Hub", "Registro de imagens Docker.\nleoalmeida/ms-agendamento:${run_number}")
+System_Ext(gcloud, "Google Cloud", "Deploy de produção via release-gcloud.yml.\nImagem: leoalmeida/ms-agendamento:${version}")
 
-System_Ext(mysql, "MySQL 8.4", "Banco relacional para persistencia de agendamentos")
-
-Rel(user, client, "Interage")
-Rel(client, system, "Consome", "HTTPS/JSON")
-Rel(system, mysql, "Le e grava", "Spring Data JPA")
+Rel(user, system, "Usa", "HTTP / REST JSON")
+Rel(system, mysql, "Persiste agendamentos", "JDBC / Spring Data JPA")
+Rel(system, eureka, "Registra instância", "HTTP")
+Rel(system, dockerhub, "Publica imagem", "CI/CD")
+Rel(system, gcloud, "Implantado em", "CI/CD")
 
 @enduml

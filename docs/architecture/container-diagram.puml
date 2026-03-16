@@ -2,20 +2,27 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-title Magalu - Diagrama de Containers
+title Desafio Magalu - Diagrama de Containers (C4 Level 2)
 
-Person(user, "Usuario")
-System_Ext(client, "Cliente HTTP / Frontend", "Web app ou consumidor REST")
+Person(user, "Usuário")
 
-System_Boundary(system, "Plataforma de Agendamento") {
+System_Ext(eureka, "Service Discovery", "Eureka Server (repositório separado)")
 
-    Container(ms_agendamento, "ms-agendamento", "Spring Boot 4 / Java 17", "API REST de agendamentos")
-    ContainerDb(mysql, "MySQL 8.4", "Banco relacional", "Persistencia de agendamentos")
+System_Boundary(magalu, "Plataforma de Agendamento") {
+
+    Container(ms_agendamento, "ms-agendamento", "Spring Boot 4.0.3 / Java 17\n+ Resilience4j Circuit Breaker", "API REST de agendamentos de comunicação.\nPorta dinâmica (atribuída pelo Eureka).\n[GET/POST/DELETE] /api/v1/agendamento")
+
+    ContainerDb(mysql, "MySQL 8.4", "Banco relacional", "Tabela: agendamentos\n(id, dataHoraAgendamento, destinatario,\nmensagem, tipoEntrega, statusEntrega)")
 
 }
 
-Rel(user, client, "Usa")
-Rel(client, ms_agendamento, "HTTP", "JSON/REST")
-Rel(ms_agendamento, mysql, "Le e grava", "Spring Data JPA")
+Rel(user, ms_agendamento, "Usa", "HTTP / REST JSON")
+Rel(ms_agendamento, mysql, "Lê e grava", "JDBC / Spring Data JPA")
+Rel(ms_agendamento, eureka, "Registra / renova instância", "HTTP")
+
+note right of ms_agendamento
+    Tipos de entrega suportados:
+    email, SMS, push, WhatsApp
+end note
 
 @enduml

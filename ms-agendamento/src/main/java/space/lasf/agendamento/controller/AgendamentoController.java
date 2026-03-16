@@ -23,7 +23,7 @@ import space.lasf.agendamento.service.AgendamentoService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/agendamento")
-public class AgendamentoController {
+public class AgendamentoController implements AgendamentoApi {
 
     @Autowired
     private AgendamentoService agendamentoService;

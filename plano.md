@@ -2,12 +2,11 @@
 
 1. Environment setup
 1. Data modeling
-1. Message-consumer microservice
 1. Service & repository layers
 1. REST API with OpenAPI documentation
-1. Integration tests (Testcontainers / MockRabbit + in-memory MongoDB)
+1. Integration tests (Testcontainers / in-memory H2)
 1. Unit tests (JUnit + Mockito)
-1. API contract tests (openapi4j)
+1. API contract tests ()
 
 # 1. Fase de Planejamento e Arquitetura
 ## 1.1 Definição de arquitetura
@@ -181,7 +180,7 @@ Subir:
 
 Ferramenta:
 
-* openapi4j
+* 
 
 Objetivo:
 

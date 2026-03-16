@@ -1,32 +1,47 @@
 @startuml cicd_diagram
 
-title Magalu - Pipeline CI/CD (GitHub Actions)
+title Desafio Magalu - CI/CD Pipelines (GitHub Actions — push to main)
 
 actor Desenvolvedor
 
-rectangle GitHub {
-
-    Desenvolvedor -> "Repositorio Git" : Envia codigo
-
+rectangle "workflow.yml\n(pipeline principal)" as wf_main {
+    rectangle "code-quality-agendamento\n(Spotless / Checkstyle / PMD / SpotBugs)" as quality
+    rectangle "test-agendamento\n(Maven clean package\n+ E2E AgendamentoFlowE2ETest\n+ JaCoCo + Codecov + artifact)" as tests
+    rectangle "build-agendamento\n(Maven -DskipTests + artefato JAR)" as build
 }
 
-rectangle "GitHub Actions" {
-
-    "Job: code-quality-agendamento\n(spotless/checkstyle/pmd/spotbugs)" as quality
-    "Job: test-agendamento\n(clean package + E2E + jacoco + codecov)" as tests
-    "Job: build-agendamento\n(package -DskipTests + artifact)" as build
-
+rectangle "docker.yml\n(workflow_call)" as docker_wf {
+    rectangle "Build e push Docker Hub\n(ms-agendamento:run_number)" as docker_push
 }
 
-rectangle "Saidas" {
-    "Artefato: ms-agendamento-jar" as artifact
-    "Cobertura: JaCoCo + Codecov" as coverage
+rectangle "release-gcloud.yml\n(workflow_call — PR merged to main)" as release_wf {
+    rectangle "Build spring-boot image\n+ push Google Cloud\n+ bump version" as gcloud_release
 }
 
-"Repositorio Git" --> quality
+rectangle "zapscan.yml" as zap_wf {
+    rectangle "OWASP ZAP DAST Scan" as zap_scan
+}
+
+Desenvolvedor --> wf_main : git push main
+Desenvolvedor --> zap_wf : git push main
+
 quality --> tests
 tests --> build
-tests --> coverage
-build --> artifact
+
+build --> docker_wf : workflow_call
+build --> release_wf : workflow_call (PR merged)
+
+note right of tests
+    Artefatos gerados:
+    - coverage-report (JaCoCo HTML, 1 dia)
+    - ms-agendamento-jar (1 dia)
+    Upload cobertura: Codecov
+    flag: ms-agendamento
+end note
+
+note right of release_wf
+    Imagem: leoalmeida/ms-agendamento:${version}
+    Bump automático de versão após release.
+end note
 
 @enduml
